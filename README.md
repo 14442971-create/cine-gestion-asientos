@@ -15,15 +15,3 @@ Este proyecto es una aplicación de consola en C# orientada a digitalizar la adm
 * **Lenguaje de Programación:** C# (.NET 10 SDK)
 * **Control de Versiones:** Git & GitHub
 * **Documentación:** Markdown
-
----
-
-## 📁 Estructura del Repositorio
-```text
-cine-gestion-asientos/
-│
-├── CodigoFuente/          # Proyecto C# (.cs, .csproj)
-├── Documentacion/         # Análisis, diagramas y entregables PDF
-├── Evidencias/            # Capturas de pantalla de ejecuciones y pruebas
-├── .gitignore             # Exclusiones optimizadas para .NET 10
-└── README.md              # Información general del repositorio
