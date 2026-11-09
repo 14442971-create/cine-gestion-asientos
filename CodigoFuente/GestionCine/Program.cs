@@ -34,7 +34,9 @@ namespace GestionCine
                         Pausar();
                         break;
                     case "2":
-                        Console.WriteLine("\n [Día 4] Módulo de captura (Reserva).");
+                        Console.Clear();
+                        MostrarEncabezado();
+                        ReservarAsiento();
                         Pausar();
                         break;
                     case "3":
@@ -87,7 +89,7 @@ namespace GestionCine
             Console.WriteLine("                         MENÚ PRINCIPAL                             ");
             Console.WriteLine("====================================================================");
             Console.WriteLine("  1. Mostrar matriz de asientos");
-            Console.WriteLine("  2. Reservar asiento");
+            Console.WriteLine("  2. Reservar asiento (Módulo de Captura)");
             Console.WriteLine("  3. Liberar asiento");
             Console.WriteLine("  4. Consultar disponibilidad de asiento");
             Console.WriteLine("  5. Ver estadísticas de ocupación");
@@ -117,6 +119,51 @@ namespace GestionCine
                 Console.WriteLine("\n");
             }
             Console.WriteLine("--------------------------------------------------------------------");
+        }
+
+        /// <summary>
+        /// Módulo de Captura (Día 4): Permite reservar un asiento validando coordenadas y estado.
+        /// </summary>
+        private static void ReservarAsiento()
+        {
+            Console.WriteLine("====================================================================");
+            Console.WriteLine("                       RESERVA DE ASIENTOS                          ");
+            Console.WriteLine("====================================================================\n");
+
+            MostrarMatriz();
+
+            int fila = LeerEntero("\n Ingrese el número de Fila (0 - 4): ", 0, FILAS - 1);
+            int columna = LeerEntero(" Ingrese el número de Columna (0 - 5): ", 0, COLUMNAS - 1);
+
+            if (sala[fila, columna] == LIBRE)
+            {
+                sala[fila, columna] = OCUPADO;
+                Console.WriteLine($"\n ¡ÉXITO! El asiento en Fila {fila}, Columna {columna} ha sido reservado correctamente.");
+            }
+            else
+            {
+                Console.WriteLine($"\n ❌ ERROR: El asiento en Fila {fila}, Columna {columna} ya se encuentra OCUPADO.");
+            }
+        }
+
+        /// <summary>
+        /// Captura y valida que la entrada del usuario sea un número entero dentro del rango permitido.
+        /// </summary>
+        private static int LeerEntero(string mensaje, int min, int max)
+        {
+            int valor;
+            while (true)
+            {
+                Console.Write(mensaje);
+                string entrada = Console.ReadLine() ?? "";
+
+                if (int.TryParse(entrada, out valor) && valor >= min && valor <= max)
+                {
+                    return valor;
+                }
+
+                Console.WriteLine($"   ⚠️ Entrada inválida. Debe ingresar un número entero entre {min} y {max}.");
+            }
         }
 
         private static void Pausar()
