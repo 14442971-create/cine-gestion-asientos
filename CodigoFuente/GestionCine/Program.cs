@@ -40,11 +40,15 @@ namespace GestionCine
                         Pausar();
                         break;
                     case "3":
-                        Console.WriteLine("\n [Día 5] Módulo de liberación.");
+                        Console.Clear();
+                        MostrarEncabezado();
+                        LiberarAsiento();
                         Pausar();
                         break;
                     case "4":
-                        Console.WriteLine("\n [Día 5] Módulo de consulta de disponibilidad.");
+                        Console.Clear();
+                        MostrarEncabezado();
+                        ConsultarDisponibilidad();
                         Pausar();
                         break;
                     case "5":
@@ -89,9 +93,9 @@ namespace GestionCine
             Console.WriteLine("                         MENÚ PRINCIPAL                             ");
             Console.WriteLine("====================================================================");
             Console.WriteLine("  1. Mostrar matriz de asientos");
-            Console.WriteLine("  2. Reservar asiento (Módulo de Captura)");
-            Console.WriteLine("  3. Liberar asiento");
-            Console.WriteLine("  4. Consultar disponibilidad de asiento");
+            Console.WriteLine("  2. Reservar asiento");
+            Console.WriteLine("  3. Liberar asiento (Módulo Día 5)");
+            Console.WriteLine("  4. Consultar disponibilidad de asiento (Módulo Día 5)");
             Console.WriteLine("  5. Ver estadísticas de ocupación");
             Console.WriteLine("  6. Salir");
             Console.WriteLine("====================================================================");
@@ -121,9 +125,6 @@ namespace GestionCine
             Console.WriteLine("--------------------------------------------------------------------");
         }
 
-        /// <summary>
-        /// Módulo de Captura (Día 4): Permite reservar un asiento validando coordenadas y estado.
-        /// </summary>
         private static void ReservarAsiento()
         {
             Console.WriteLine("====================================================================");
@@ -146,9 +147,47 @@ namespace GestionCine
             }
         }
 
-        /// <summary>
-        /// Captura y valida que la entrada del usuario sea un número entero dentro del rango permitido.
-        /// </summary>
+        // Módulo Día 5: Cambia el estado de un asiento de 'O' a 'L'.
+        private static void LiberarAsiento()
+        {
+            Console.WriteLine("====================================================================");
+            Console.WriteLine("                       LIBERACIÓN DE ASIENTOS                       ");
+            Console.WriteLine("====================================================================\n");
+
+            MostrarMatriz();
+
+            int fila = LeerEntero("\n Ingrese el número de Fila (0 - 4): ", 0, FILAS - 1);
+            int columna = LeerEntero(" Ingrese el número de Columna (0 - 5): ", 0, COLUMNAS - 1);
+
+            if (sala[fila, columna] == OCUPADO)
+            {
+                sala[fila, columna] = LIBRE;
+                Console.WriteLine($"\n ¡ÉXITO! El asiento en Fila {fila}, Columna {columna} ha sido liberado.");
+            }
+            else
+            {
+                Console.WriteLine($"\n ⚠️ ADVERTENCIA: El asiento en Fila {fila}, Columna {columna} ya se encuentra LIBRE.");
+            }
+        }
+
+  
+        // Módulo Día 5: Muestra el estado del asiento en una coordenada sin alterarlo.
+      
+        private static void ConsultarDisponibilidad()
+        {
+            Console.WriteLine("====================================================================");
+            Console.WriteLine("                    CONSULTA DE DISPONIBILIDAD                      ");
+            Console.WriteLine("====================================================================\n");
+
+            int fila = LeerEntero(" Ingrese el número de Fila (0 - 4): ", 0, FILAS - 1);
+            int columna = LeerEntero(" Ingrese el número de Columna (0 - 5): ", 0, COLUMNAS - 1);
+
+            char estado = sala[fila, columna];
+            string textoEstado = (estado == LIBRE) ? "LIBRE (Disponible)" : "OCUPADO (Reservado)";
+
+            Console.WriteLine($"\n 📌 Estado del Asiento [Fila {fila}, Columna {columna}]: {textoEstado}");
+        }
+
         private static int LeerEntero(string mensaje, int min, int max)
         {
             int valor;
