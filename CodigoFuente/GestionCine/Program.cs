@@ -52,7 +52,9 @@ namespace GestionCine
                         Pausar();
                         break;
                     case "5":
-                        Console.WriteLine("\n [Día 6] Módulo de estadísticas de ocupación.");
+                        Console.Clear();
+                        MostrarEncabezado();
+                        MostrarEstadisticas();
                         Pausar();
                         break;
                     case "6":
@@ -94,9 +96,9 @@ namespace GestionCine
             Console.WriteLine("====================================================================");
             Console.WriteLine("  1. Mostrar matriz de asientos");
             Console.WriteLine("  2. Reservar asiento");
-            Console.WriteLine("  3. Liberar asiento (Módulo Día 5)");
-            Console.WriteLine("  4. Consultar disponibilidad de asiento (Módulo Día 5)");
-            Console.WriteLine("  5. Ver estadísticas de ocupación");
+            Console.WriteLine("  3. Liberar asiento");
+            Console.WriteLine("  4. Consultar disponibilidad de asiento");
+            Console.WriteLine("  5. Ver estadísticas de ocupación (Módulo Día 6)");
             Console.WriteLine("  6. Salir");
             Console.WriteLine("====================================================================");
         }
@@ -147,7 +149,6 @@ namespace GestionCine
             }
         }
 
-        // Módulo Día 5: Cambia el estado de un asiento de 'O' a 'L'.
         private static void LiberarAsiento()
         {
             Console.WriteLine("====================================================================");
@@ -170,9 +171,6 @@ namespace GestionCine
             }
         }
 
-  
-        // Módulo Día 5: Muestra el estado del asiento en una coordenada sin alterarlo.
-      
         private static void ConsultarDisponibilidad()
         {
             Console.WriteLine("====================================================================");
@@ -186,6 +184,38 @@ namespace GestionCine
             string textoEstado = (estado == LIBRE) ? "LIBRE (Disponible)" : "OCUPADO (Reservado)";
 
             Console.WriteLine($"\n 📌 Estado del Asiento [Fila {fila}, Columna {columna}]: {textoEstado}");
+        }
+
+        // Módulo Día 6: Recorre la matriz, cuenta ocupados/disponibles y calcula el % de ocupación.
+        private static void MostrarEstadisticas()
+        {
+            Console.WriteLine("====================================================================");
+            Console.WriteLine("                     ESTADÍSTICAS DE OCUPACIÓN                      ");
+            Console.WriteLine("====================================================================\n");
+
+            int ocupados = 0;
+            int disponibles = 0;
+            int totalAsientos = FILAS * COLUMNAS;
+
+            for (int i = 0; i < FILAS; i++)
+            {
+                for (int j = 0; j < COLUMNAS; j++)
+                {
+                    if (sala[i, j] == OCUPADO)
+                        ocupados++;
+                    else
+                        disponibles++;
+                }
+            }
+
+            double porcentajeOcupacion = ((double)ocupados / totalAsientos) * 100;
+            double porcentajeDisponibilidad = ((double)disponibles / totalAsientos) * 100;
+
+            Console.WriteLine($"  Total de Asientos en Sala: {totalAsientos}");
+            Console.WriteLine($"  ------------------------------------------------------------------");
+            Console.WriteLine($"  🔴 Asientos Ocupados:      {ocupados,-3} ({porcentajeOcupacion,6:F2}%)");
+            Console.WriteLine($"  🟢 Asientos Disponibles:   {disponibles,-3} ({porcentajeDisponibilidad,6:F2}%)");
+            Console.WriteLine($"  ------------------------------------------------------------------");
         }
 
         private static int LeerEntero(string mensaje, int min, int max)
